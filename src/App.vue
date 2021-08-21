@@ -1,16 +1,23 @@
 <template>
   <div id="app">
-    <StartPage />
+    <StartPage v-if="page === 'StartPage'" @host="page = 'HostPage'" />
+    <HostGamePage v-else-if="page === 'HostPage'"/>
   </div>
 </template>
 
 <script>
-import StartPage from './components/StartPage.vue'
+import StartPage from './components/StartPage.vue';
+import HostGamePage from './components/HostGamePage.vue';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      page: 'StartPage'
+    }
+  },
   components: {
-    StartPage
+    StartPage, HostGamePage
   }
 }
 </script>
@@ -29,4 +36,13 @@ body, html {
   text-align: center;
   color: #2c3e50;
 }
+
+h1 {
+    color: #f15555;
+    margin-top: 60px;
+    font-size: 60px;
+    text-shadow: 0px 0px 8px  #402121;
+    text-decoration: underline;
+}
+
 </style>

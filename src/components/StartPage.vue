@@ -1,5 +1,5 @@
 <template>
-    <div class="startPage">
+    <div>
         <h1>Not Among Us</h1>
         <form>
             <fieldset>
@@ -9,20 +9,13 @@
             </fieldset>
             <fieldset>
                 <label>Or:</label>
-                <button>Host Game</button>
+                <button @click="$emit('host')">Host Game</button>
             </fieldset>
         </form>
     </div>
 </template>
 
 <style scoped>
-h1 {
-    color: #f15555;
-    margin-top: 60px;
-    font-size: 60px;
-    text-shadow: 0px 0px 8px  #402121;
-    text-decoration: underline;
-}
 
 form {
     width: 340px;
