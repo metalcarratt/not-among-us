@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <StartPage v-if="page === 'StartPage'" @host="page = 'HostPage'" />
+    <StartPage v-if="page === 'StartPage'" @host="page = 'HostPage'" @join="page = 'NewPage'" />
     <HostGamePage v-else-if="page === 'HostPage'"/>
+    <NewPlayerPage v-else-if="page === 'NewPage'"/>
   </div>
 </template>
 
 <script>
 import StartPage from './components/StartPage.vue';
 import HostGamePage from './components/HostGamePage.vue';
+import NewPlayerPage from './components/NewPlayerPage.vue';
 
 export default {
   name: 'App',
@@ -17,7 +19,7 @@ export default {
     }
   },
   components: {
-    StartPage, HostGamePage
+    StartPage, HostGamePage, NewPlayerPage
   }
 }
 </script>
@@ -45,4 +47,46 @@ h1 {
     text-decoration: underline;
 }
 
+form {
+    width: 340px;
+    margin: 0 auto;
+    margin-top: 60px;
+}
+
+fieldset {
+    border: none;
+}
+
+label {
+    display: block;
+    font-size: 30px;
+    color: white;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+label.left {
+  text-align: left;
+}
+
+input {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #353569;
+    margin-bottom: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    box-sizing: border-box;
+
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid #353569;
+    padding: 10px;
+    background-color: #fbcd07;
+}
 </style>
