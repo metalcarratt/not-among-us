@@ -1,15 +1,23 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faGhost, faBomb, faPepperHot, faCat, faHatWizard, faDrumstickBite, faPlane } from '@fortawesome/free-solid-svg-icons'
+import { faTree, faGhost, faBomb, faPepperHot, faCat, faKiwiBird,
+    faDrumstickBite, faPlane, faDove, faCookieBite, faCoffee,
+    faBook, faGripHorizontal, faUserSecret, faUserTie, faUserNinja,
+    faArrowAltCircleRight, faKey, faHammer, faTools, faSprayCan,
+    faSkull, faUserMd, faDoorClosed, faDoorOpen, faMask } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUserSecret, faGhost, faBomb, faPepperHot, faCat, faHatWizard, faDrumstickBite, faPlane)
+library.add(faTree, faGhost, faBomb, faPepperHot, faCat, faKiwiBird,
+    faDrumstickBite, faPlane, faDove, faCookieBite, faCoffee,
+    faBook, faGripHorizontal, faUserSecret, faUserTie, faUserNinja,
+    faArrowAltCircleRight, faKey, faHammer, faTools, faSprayCan,
+    faSkull, faUserMd, faDoorClosed, faDoorOpen, faMask);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   render: h => h(App),
-}).$mount('#app')
+}).$mount('#app');

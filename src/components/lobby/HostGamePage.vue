@@ -5,7 +5,7 @@
             <button @click="join" v-if="!joinAsPlayer">Join as Player</button>
             <button @click="startGame">Start Game</button>
         </div>
-        <NewPlayer :code="code" v-if="joinAsPlayer" />
+        <NewPlayer :code="code" v-if="joinAsPlayer" @player="updatePlayer" />
         <GameStats :gameId="code" />
     </div>
 </template>
@@ -32,6 +32,10 @@ export default {
         },
         startGame() {
             this.$emit('startGame', this.code);
+            api.startGame(this.code);
+        },
+        updatePlayer(player) {
+            this.$emit('player', player);
         }
     }
 }

@@ -1,0 +1,21 @@
+.box {
+    border: 1px solid #6767a7;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 5px #6767a7;
+    padding: 40px;
+    vertical-align: top;
+    width: 340px;
+}
+  
+.box + .box {
+    margin-left: 40px;
+}
+  
+.box2 {
+    display: block;
+    width: 340px;
+    margin: 0 auto;
+    padding: 40px;
+}

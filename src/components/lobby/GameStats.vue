@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box stats">
         <label>Game code:</label>
         <p class="code">{{ gameId }}</p>
         <h2>Players:</h2>
@@ -39,32 +39,10 @@ export default {
         },
         async poll() {
             this.stats = await api.gameDetails(this.gameId);
+            if (this.stats.game.status === 'started') {
+                this.$emit('started', this.gameId);
+            }
         }
     }
 }
 </script>
-
-<style scoped>
-.player {
-    display: inline-block;
-    margin-left: 20px;
-}
-
-h2 {
-    color: white;
-    text-decoration: underline;
-}
-
-label {
-    font-size: 30px;
-    color: white;
-}
-
-.code {
-    color: #b5b1b1;
-    font-size: 40px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-family: monospace;
-}
-</style>

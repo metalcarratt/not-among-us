@@ -1,27 +1,47 @@
 <template>
-    <div class="outer">
-        <h1>Not Among Us</h1>
-        <!-- <p>{{ gameId }}</p> -->
+    <div class="outer play">
+        <span class="banner">
+            <h1>Not Among Us</h1>
+            <Profile :player="player" type="banner" />
+            <span class="right">
+                <span class="action" @click="clickShowIdentityCards">
+                    <font-awesome-icon icon="user-secret" />
+                    <label>Identity</label>
+                </span>
+                
+                <span class="action" @click="clickShowHandCards">
+                    <font-awesome-icon icon="grip-horizontal" />
+                    <label>Cards</label>
+                </span>
+            </span>
+        </span>
         <div class="gameBoard">
-            <span class="room" v-for="(room, roomIter) in rooms" :key="roomIter">
-                <label>{{ room }}</label>
+            <span class="room" v-for="(room, roomIter) in rooms" :key="roomIter" @click="clickRoom(room)">
+                <label class="sign">{{ room }}</label>
                 <span class="floor">
-                    <template v-if="room === 'Lounge'">
-                        <Profile :player="player" v-for="(player, playerIter) in players" :key="playerIter" type="token" />
-                    </template>
+                    <Profile :player="player" v-for="(player, playerIter) in playersInRoom(room)" :key="playerIter" type="token" />
                 </span>
             </span>
         </div>
+        <ShowCards title="Identity Card" v-if="showIdentityCards" @close="hideCards">
+            <IdentityCard :identity="identity" />
+        </ShowCards>
+        <ShowCards title="Cards in Hand" v-if="showHandCards" @close="hideCards">
+            <HandCards />
+        </ShowCards>
     </div>
 </template>
 
 <script>
 import api from '@/util/api.js';
 import Profile from '@/components/Profile.vue';
+import ShowCards from './ShowCards.vue';
+import IdentityCard from './IdentityCard.vue';
+import HandCards from './HandCards.vue';
 
 export default {
-    props: ['gameId'],
-    components: { Profile },
+    props: ['gameId', 'playerIn'],
+    components: { Profile, ShowCards, IdentityCard, HandCards },
     data() {
         return {
             rooms: [
@@ -35,7 +55,11 @@ export default {
                 "Left Engine",
                 "Sickbay"
             ],
-            game: {}
+            game: {},
+            player: {},
+            showIdentityCards: false,
+            showHandCards: false,
+            identity: 'crew'
         }
     },
     computed: {
@@ -45,76 +69,25 @@ export default {
     },
     async mounted() {
         this.game = (await api.gameDetails(this.gameId)).game;
+        this.player = this.game.players.find(player => player.id === this.playerIn.id);
+    },
+    methods: {
+        playersInRoom(room) {
+            return this.game.players ? this.game.players.filter(player => player.room === room) : [];
+        },
+        clickRoom(room) {
+            this.player.room = room;
+        },
+        clickShowIdentityCards() {
+            this.showIdentityCards = true;
+        },
+        clickShowHandCards() {
+            this.showHandCards = true;
+        },
+        hideCards() {
+            this.showIdentityCards = false;
+            this.showHandCards = false;
+        }
     }
 }
 </script>
-
-<style scoped>
-h1 {
-    margin-top: 10px;
-    text-align: left;
-    margin-left: 20px;
-    font-size: 40px;
-}
-
-.outer {
-    height: 100%;
-}
-
-.gameBoard {
-    margin: 20px;
-    width: calc(100% - 40px);
-    height: 80%;
-    box-shadow: 0px 0px 15px black;
-
-    background: rgb(5,5,5);
-    background: linear-gradient(22deg, rgba(5,5,5,1) 0%, rgba(122,122,122,1) 59%, rgba(233,233,233,1) 100%);
-
-    padding: 5px;
-    box-sizing: border-box;
-    border: 2px solid black;
-    border-radius: 20px;
-}
-
-.room {
-    display: inline-block;
-    vertical-align: top;
-    margin: 5px;
-    width: calc(33% - 10px);
-    height: calc(33% - 10px);
-    border: 1px solid black;
-    border-radius: 10px;
-    border: 2px solid black;
-    box-sizing: border-box;
-
-    background: rgb(24,23,37);
-    background: linear-gradient(22deg, rgba(24,23,37,1) 0%, rgba(94,97,129,1) 59%, rgba(131,160,199,1) 100%);
-}
-
-label {
-    font-size: 20px;
-    color: #525240;
-    width: 200px;
-    margin: 0 auto;
-    margin-top: 15px;
-    padding: 5px;
-    border: 1px solid black;
-    text-shadow: 0px 0px 15px white;
-
-    background: rgb(125,125,125);
-    background: linear-gradient(22deg, rgba(125,125,125,1) 0%, rgba(186,186,186,1) 18%, rgba(255,255,255,1) 100%);
-    box-shadow: 1px 1px 1px black;
-}
-
-.floor {
-    width: 100%;
-    height: calc(100% - 60px);
-    display: block;
-    margin-top: calc(60px - 50px);
-    border-radius: 10px;
-    border-top: 1px solid black;
-
-    background: rgb(128,124,80);
-    background: linear-gradient(22deg, rgba(128,124,80,1) 0%, rgba(177,176,122,1) 18%, rgba(255,249,170,1) 100%);
-}
-</style>

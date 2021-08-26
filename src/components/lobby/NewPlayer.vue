@@ -6,7 +6,7 @@
                 <p class="error-msg" v-if="error === 'name'">Please enter a name</p>
                 <input type="text" placeholder="Name" :class="error === 'name' ? 'error' : ''" v-model="name" />
                 <label class="left">Colour:</label>
-                <ul>
+                <ul class="options">
                     <li 
                         v-for="(colourp, colouri) in allColours"
                         :key="colouri"
@@ -17,7 +17,7 @@
                 </ul>
                     
                 <label class="left">Insignia:</label>
-                <ul>
+                <ul class="options">
                     <li
                         v-for="(iconp, iconi) in allIcons"
                         :key="iconi"
@@ -47,7 +47,7 @@ export default {
             error: '',
             name: '',
             colour: 'blue',
-            icon: 'user-secret',
+            icon: 'tree',
             allColours: [
                 'blue',
                 'red',
@@ -59,14 +59,18 @@ export default {
                 'black'
             ],
             allIcons: [
-                'user-secret',
+                'tree',
                 'ghost',
                 'bomb',
                 'pepper-hot',
                 'cat',
-                'hat-wizard',
+                'kiwi-bird',
                 'drumstick-bite',
-                'plane'
+                'plane',
+                'dove',
+                'cookie-bite',
+                'coffee',
+                'book'
             ]
         }
     },
@@ -94,53 +98,11 @@ export default {
             if (!this.name) {
                 this.error = "name";
             } else {
-                await api.newPlayer(this.code, this.player);
+                const player = await api.newPlayer(this.code, this.player);
                 this.status = 'created';
+                this.$emit("player", player);
             }
         }
     }
 }
 </script>
-
-<style scoped>
-ul {
-    padding-left: 0;
-}
-
-li {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    margin: 5px;
-    border: 3px solid black;
-    border-radius: 10px;
-}
-
-li:hover {
-    cursor: pointer;
-}
-
-li.icon {
-    color: white;
-    font-size: 35px;
-}
-
-li.icon svg {
-    margin-top: 5px;
-}
-
-
-
-li.selected {
-    border: 5px solid yellow;
-}
-
-.error {
-    border: 5px solid red;
-}
-
-.error-msg {
-    color: #ff8383;
-    font-size: 25px;
-}
-</style>
